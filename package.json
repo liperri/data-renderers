@@ -1,6 +1,8 @@
 {
   "name": "@liperri/data-renderers",
   "version": "1.0.1",
+  "author": "Andrey Dobrin",
+  "license": "ISC",
   "description": "A library for rendering data tables and components in React using @mui/material.",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -13,8 +15,6 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
-  "author": "",
-  "license": "ISC",
   "peerDependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
