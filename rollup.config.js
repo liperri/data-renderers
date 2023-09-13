@@ -18,7 +18,10 @@ export default [
       resolve(),
       commonjs(),
       babel({ babelHelpers: 'bundled' }),
-      typescript({ tsconfig: './tsconfig.json' }),
+      typescript({
+        tsconfig: './tsconfig.json',
+        exclude: ['node_modules', 'src/components/**/**.story.tsx'],
+      }),
       terser(),
     ],
     external: ['react', '@mui/material'],

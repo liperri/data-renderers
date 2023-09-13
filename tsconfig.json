@@ -13,6 +13,5 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true
-  },
-  "exclude": ["node_modules", "src/components/**/**.story.tsx"]
+  }
 }
