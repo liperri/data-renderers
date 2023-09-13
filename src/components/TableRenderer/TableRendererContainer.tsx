@@ -54,6 +54,7 @@ const TableRendererContainer = <TData,>({
           isEmpty={isEmpty}
           error={error}
           columns={columns}
+          selectable={selectable}
           renderRow={renderRow}
           renderOverlay={renderOverlay}
         />

@@ -49,7 +49,7 @@ const TableRendererBody = <TData,>({
               columnsLength={columns.length}
               CheckboxComponent={() =>
                 selectable ? (
-                  <TableCell>
+                  <TableCell padding="checkbox">
                     <Box sx={{ width: 42, height: 42, display: 'inline-grid', placeItems: 'center' }}>
                       <Skeleton width={20} height={20} variant="rectangular" sx={{ borderRadius: 0.5 }} />
                     </Box>
@@ -69,7 +69,7 @@ const TableRendererBody = <TData,>({
               selected,
               CheckboxComponent: () =>
                 selectable ? (
-                  <TableCell>
+                  <TableCell padding="checkbox">
                     <Checkbox
                       checked={selected}
                       onChange={(event, checked) => handleSelectRow(event, checked, rowData, index)}
