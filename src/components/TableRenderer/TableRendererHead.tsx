@@ -20,4 +20,6 @@ const TableRendererHead = ({ columns = [], selectable, CheckboxComponent, render
   );
 };
 
+TableRendererHead.displayName = 'TableRendererHead';
+
 export default TableRendererHead;

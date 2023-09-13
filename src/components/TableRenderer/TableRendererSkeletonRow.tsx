@@ -20,4 +20,6 @@ const TableRendererSkeletonRow = ({ columnsLength, CheckboxComponent }: TableRen
   );
 };
 
+TableRendererSkeletonRow.displayName = 'TableRendererSkeletonRow';
+
 export default TableRendererSkeletonRow;

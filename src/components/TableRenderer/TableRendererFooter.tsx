@@ -17,4 +17,6 @@ const TableRendererFooter = ({
   </>
 );
 
+TableRendererFooter.displayName = 'TableRendererFooter';
+
 export default TableRendererFooter;

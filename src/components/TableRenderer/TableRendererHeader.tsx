@@ -17,4 +17,6 @@ const TableRendererHeader = ({
   </>
 );
 
+TableRendererHeader.displayName = 'TableRendererHeader';
+
 export default TableRendererHeader;

@@ -50,4 +50,6 @@ const TableRendererProvider = <TData,>({ children }: PropsWithChildren) => {
   );
 };
 
+TableRendererProvider.displayName = 'TableRendererProvider';
+
 export default TableRendererProvider;

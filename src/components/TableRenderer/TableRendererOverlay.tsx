@@ -45,4 +45,6 @@ const TableRendererOverlay = ({
   );
 };
 
+TableRendererOverlay.displayName = 'TableRendererOverlay';
+
 export default TableRendererOverlay;

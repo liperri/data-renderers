@@ -82,4 +82,6 @@ const TableRendererBody = <TData,>({
   );
 };
 
+TableRendererBody.displayName = 'TableRendererBody';
+
 export default TableRendererBody;

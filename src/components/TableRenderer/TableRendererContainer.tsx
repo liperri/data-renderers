@@ -62,4 +62,6 @@ const TableRendererContainer = <TData,>({
   );
 };
 
+TableRendererContainer.displayName = 'TableRendererContainer';
+
 export default TableRendererContainer;

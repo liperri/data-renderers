@@ -61,4 +61,6 @@ const TableRenderer = <TData,>({
   );
 };
 
+TableRenderer.displayName = 'TableRenderer';
+
 export default TableRenderer;
