@@ -1,14 +1,11 @@
-import { useContext } from 'react';
 import { Box, Checkbox, Skeleton, TableBody, TableCell } from '@mui/material';
 
 import { getRandomNumber } from '../../utils/helpers';
 
 import { TableRendererBodyProps } from './types';
-import { TableRendererContext } from './context';
+import { useTableRendererContext } from './context';
 import TableRendererOverlay from './TableRendererOverlay';
 import TableRendererSkeletonRow from './TableRendererSkeletonRow';
-
-import { TableRendererContextProps } from './context';
 
 const TABLE_BODY_HEIGHT = 130;
 const RANDOM_ROW_SKELETON_LENGTH = getRandomNumber(4, 10);
@@ -25,10 +22,9 @@ const TableRendererBody = <TData,>({
   renderRow,
   renderOverlay,
 }: TableRendererBodyProps<TData>) => {
-  const { selectedRows, handleSelectRow } = useContext<TableRendererContextProps<TData>>(TableRendererContext);
+  const { selectedRows, handleSelectRow } = useTableRendererContext<TData>();
 
-  const shouldRenderOverlayFetchingOrError =
-    (!isLoading && isFetching) || (!isLoading && !data.length) || (isFetching && data.length) || isError;
+  const shouldRenderOverlayFetchingOrError = !isLoading || (isFetching && data.length) || isError;
 
   return (
     <TableBody sx={{ position: 'relative', height: !data.length || isError ? TABLE_BODY_HEIGHT : 'auto' }}>
@@ -46,12 +42,12 @@ const TableRendererBody = <TData,>({
       {isLoading
         ? Array.from({ length: RANDOM_ROW_SKELETON_LENGTH }, (_, index) => index).map((index) => (
             <TableRendererSkeletonRow
-              columnsLength={columns.length}
+              columns={columns}
               CheckboxComponent={() =>
                 selectable ? (
                   <TableCell padding="checkbox">
                     <Box sx={{ width: 42, height: 42, display: 'inline-grid', placeItems: 'center' }}>
-                      <Skeleton width={20} height={20} variant="rectangular" sx={{ borderRadius: 0.5 }} />
+                      <Skeleton width={20} height={20} variant="rounded" />
                     </Box>
                   </TableCell>
                 ) : null

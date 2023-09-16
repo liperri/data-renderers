@@ -33,7 +33,7 @@ const TableRenderer = <TData,>({
       error,
       isFetching,
       isError,
-      isEmpty: !isError && !isLoading && !isFetching && !data.length,
+      isEmpty: !data.length,
       isLoading,
     }),
     [isLoading, isFetching, isError, data, error],

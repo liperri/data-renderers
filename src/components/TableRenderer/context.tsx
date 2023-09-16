@@ -1,4 +1,4 @@
-import { PropsWithChildren, createContext, useState } from 'react';
+import { PropsWithChildren, createContext, useContext, useState } from 'react';
 
 interface TableRendererSelectedRow<TData> {
   rowData: TData;
@@ -48,6 +48,14 @@ const TableRendererProvider = <TData,>({ children }: PropsWithChildren) => {
       {children}
     </TableRendererContext.Provider>
   );
+};
+
+export const useTableRendererContext = <TData,>() => {
+  const context = useContext(TableRendererContext);
+
+  if (!context) throw new Error('useTableRendererContext должен использоваться внутри TableRendererProvider');
+
+  return context as TableRendererContextProps<TData>;
 };
 
 TableRendererProvider.displayName = 'TableRendererProvider';
