@@ -4,6 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { useEffect, useState } from 'react';
 import { faker } from '@faker-js/faker';
 import {
+  Avatar,
   Box,
   Button,
   CircularProgress,
@@ -11,9 +12,13 @@ import {
   ListItemButton,
   ListItemText,
   Pagination,
+  Paper,
   Skeleton,
+  Stack,
   Typography,
 } from '@mui/material';
+
+import { getRandomNumber } from '../../utils/helpers';
 
 import { ListRenderer } from '.';
 
@@ -25,6 +30,7 @@ type User = {
   job: string;
   position: string;
   birthdate: Date;
+  photo: string;
 };
 
 const USERS: User[] = Array.from({ length: 50 }, (_, index) => ({
@@ -35,6 +41,7 @@ const USERS: User[] = Array.from({ length: 50 }, (_, index) => ({
   job: faker.company.name(),
   position: faker.person.jobTitle(),
   birthdate: faker.date.past({ refDate: new Date(), years: 1990 }),
+  photo: faker.image.avatar(),
 }));
 
 const Template = () => {
@@ -69,6 +76,7 @@ const Template = () => {
     <ListRenderer
       StackProps={{ spacing: 4 }}
       disablePadding
+      sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
       data={currentUsers}
       isLoading={isLoading}
       isFetching={isFetching}
@@ -76,14 +84,38 @@ const Template = () => {
       error={{ data: 'Неизвестная ошибка' }}
       renderItem={{
         item: (user) => (
-          <ListItemButton key={user.id}>
-            <ListItemText>{user.name}</ListItemText>
-          </ListItemButton>
+          <Paper
+            component={ListItemButton}
+            sx={{ p: 2.5, flexDirection: 'column', alignItems: 'stretch' }}
+            key={user.id}
+          >
+            <Stack direction="row" spacing={1} sx={{ alignItems: 'center', mb: 1 }}>
+              <Avatar src={user.photo}>{user.name}</Avatar>
+
+              <Typography component="h2" variant="h4">
+                {user.name} {user.surname}
+              </Typography>
+            </Stack>
+
+            <Typography color="text.secondary">
+              <b>{user.address}</b>
+            </Typography>
+
+            <Typography>
+              {user.job} {user.position}
+            </Typography>
+          </Paper>
         ),
         skeleton: (index: number) => (
-          <ListItem sx={{ py: 1.5 }} key={index}>
-            <Skeleton width={120} />
-          </ListItem>
+          <Paper component={ListItem} sx={{ p: 2.5, flexDirection: 'column', alignItems: 'stretch' }} key={index}>
+            <Stack direction="row" spacing={1} sx={{ alignItems: 'center', mb: 1 }}>
+              <Skeleton variant="circular" width={40} height={40} />
+              <Skeleton width={getRandomNumber(120, 230)} variant="rounded" />
+            </Stack>
+
+            <Skeleton width={getRandomNumber(120, 230)} height={26} />
+            <Skeleton width={getRandomNumber(320, 430)} height={26} />
+          </Paper>
         ),
       }}
       renderFooter={{
