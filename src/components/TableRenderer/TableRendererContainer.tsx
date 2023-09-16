@@ -1,12 +1,9 @@
-import { useContext } from 'react';
 import { Checkbox, Table, TableCell, TableContainer } from '@mui/material';
 
 import { TableRendererContainerProps } from './types';
-import { TableRendererContext } from './context';
+import { useTableRendererContext } from './context';
 import TableRendererBody from './TableRendererBody';
 import TableRendererHead from './TableRendererHead';
-
-import { TableRendererContextProps } from './context';
 
 const TableRendererContainer = <TData,>({
   data = [],
@@ -23,7 +20,7 @@ const TableRendererContainer = <TData,>({
   TableContainerProps,
   ...props
 }: TableRendererContainerProps<TData>) => {
-  const { selectedRows, handleSelectAllRows } = useContext<TableRendererContextProps<TData>>(TableRendererContext);
+  const { selectedRows, handleSelectAllRows } = useTableRendererContext<TData>();
 
   return (
     <TableContainer {...TableContainerProps}>
@@ -34,7 +31,7 @@ const TableRendererContainer = <TData,>({
           renderHead={renderHead}
           CheckboxComponent={() =>
             selectable ? (
-              <TableCell padding="checkbox">
+              <TableCell align="center" padding="checkbox">
                 <Checkbox
                   disabled={isLoading || isFetching}
                   indeterminate={selectedRows.length > 0 && selectedRows.length < data.length}

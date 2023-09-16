@@ -236,8 +236,7 @@ export type TableRendererRowProps<TData> = {
 /**
  * Свойства для отображения скелетона строк таблицы
  */
-export type TableRendererSkeletonRowProps = {
-  columnsLength: number;
+export type TableRendererSkeletonRowProps = Pick<TableRendererBaseProps, 'columns'> & {
   CheckboxComponent: React.ElementType;
 };
 

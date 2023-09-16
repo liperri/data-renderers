@@ -1,20 +1,14 @@
-import { Skeleton, TableCell, TableRow } from '@mui/material';
+import { TableRow } from '@mui/material';
 
-import { getRandomNumber } from '../../utils/helpers';
+import { TableRendererSkeletonCell, TableRendererSkeletonRowProps } from '../TableRenderer';
 
-import { TableRendererSkeletonRowProps } from '../TableRenderer';
-
-const RANDOM_CELL_SKELETON_LENGTH = getRandomNumber(60, 95);
-
-const TableRendererSkeletonRow = ({ columnsLength, CheckboxComponent }: TableRendererSkeletonRowProps) => {
+const TableRendererSkeletonRow = ({ columns, CheckboxComponent }: TableRendererSkeletonRowProps) => {
   return (
     <TableRow>
       <CheckboxComponent />
 
-      {Array.from({ length: columnsLength }, (_, index) => index).map((index) => (
-        <TableCell key={index}>
-          <Skeleton width={`${RANDOM_CELL_SKELETON_LENGTH}px`} />
-        </TableCell>
+      {Array.from({ length: columns.length }, (_, index) => index).map((index) => (
+        <TableRendererSkeletonCell key={index} />
       ))}
     </TableRow>
   );
