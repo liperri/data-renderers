@@ -17,4 +17,6 @@ const ListRendererFooter = ({
   </>
 );
 
+ListRendererFooter.displayName = 'ListRendererFooter';
+
 export default ListRendererFooter;

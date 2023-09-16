@@ -17,4 +17,6 @@ const ListRendererHeader = ({
   </>
 );
 
+ListRendererHeader.displayName = 'ListRendererHeader';
+
 export default ListRendererHeader;

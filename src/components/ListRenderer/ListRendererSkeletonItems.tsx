@@ -14,4 +14,6 @@ const ListRendererSkeletonItems = ({ renderItem, skeletonCount, ...props }: List
   </List>
 );
 
+ListRendererSkeletonItems.displayName = 'ListRendererSkeletonItems';
+
 export default ListRendererSkeletonItems;

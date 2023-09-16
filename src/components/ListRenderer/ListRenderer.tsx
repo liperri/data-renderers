@@ -62,4 +62,6 @@ const ListRenderer = <TData,>({
   );
 };
 
+ListRenderer.displayName = 'ListRenderer';
+
 export default ListRenderer;
