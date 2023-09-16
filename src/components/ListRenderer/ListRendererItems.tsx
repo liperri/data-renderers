@@ -16,4 +16,7 @@ const ListRendererItems = <TData,>({
     {data.map((data, index) => renderItem.item(data, { isLoading, error, isError, isEmpty, isFetching }, index))}
   </List>
 );
+
+ListRendererItems.displayName = 'ListRendererItems';
+
 export default ListRendererItems;

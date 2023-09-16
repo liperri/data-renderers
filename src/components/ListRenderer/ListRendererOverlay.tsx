@@ -25,6 +25,8 @@ const ListRendererOverlay = ({
   </>
 );
 
+ListRendererOverlay.displayName = 'ListRendererOverlay';
+
 const OverlayContainer = ({ children, isEmpty }: PropsWithChildren<Pick<ListRendererOverlayProps, 'isEmpty'>>) => {
   const theme = useTheme();
 
@@ -42,5 +44,7 @@ const OverlayContainer = ({ children, isEmpty }: PropsWithChildren<Pick<ListRend
     </Box>
   );
 };
+
+OverlayContainer.displayName = 'OverlayContainer';
 
 export default ListRendererOverlay;
