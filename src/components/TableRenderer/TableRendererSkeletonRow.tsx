@@ -1,6 +1,7 @@
 import { TableRow } from '@mui/material';
 
-import { TableRendererSkeletonCell, TableRendererSkeletonRowProps } from '../TableRenderer';
+import { TableRendererSkeletonRowProps } from './types';
+import TableRendererSkeletonCell from './TableRendererSkeletonCell';
 
 const TableRendererSkeletonRow = ({ columns, CheckboxComponent }: TableRendererSkeletonRowProps) => {
   return (
