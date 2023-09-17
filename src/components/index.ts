@@ -1,3 +1,6 @@
+export { DataRenderer } from './DataRenderer';
+export type { DataRendererProps, DataRendererState, DataRendererStateWithData } from './DataRenderer';
+
 export { GridRenderer } from './GridRenderer';
 export type {
   GridRendererFooterProps,

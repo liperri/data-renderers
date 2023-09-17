@@ -1,6 +1,6 @@
 {
   "name": "@liperri/data-renderers",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "author": "Andrey Dobrin",
   "license": "ISC",
   "description": "A library for rendering data tables and components in React using @mui/material.",
@@ -38,6 +38,7 @@
     "@storybook/testing-library": "^0.2.0",
     "@types/react": "^18.2.21",
     "rollup": "^3.29.1",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
     "storybook": "^7.4.0",
     "tslib": "^2.6.2",
     "typescript": "^5.2.2"
@@ -49,8 +50,5 @@
     "mui",
     "material ui",
     "typescript"
-  ],
-  "dependencies": {
-    "rollup-plugin-peer-deps-external": "^2.2.4"
-  }
+  ]
 }
