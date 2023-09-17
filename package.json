@@ -16,11 +16,9 @@
     "build-storybook": "storybook build"
   },
   "peerDependencies": {
-    "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/material": "^5.14.8",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react": "^18.2.0"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.22.15",
@@ -41,8 +39,6 @@
     "@storybook/react-webpack5": "^7.4.0",
     "@storybook/testing-library": "^0.2.0",
     "@types/react": "^18.2.21",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
     "rollup": "^3.29.1",
     "rollup-plugin-dts": "^6.0.1",
     "storybook": "^7.4.0",
@@ -56,5 +52,8 @@
     "mui",
     "material ui",
     "typescript"
-  ]
+  ],
+  "dependencies": {
+    "rollup-plugin-peer-deps-external": "^2.2.4"
+  }
 }
