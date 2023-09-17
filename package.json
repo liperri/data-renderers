@@ -1,6 +1,6 @@
 {
   "name": "@liperri/data-renderers",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "author": "Andrey Dobrin",
   "license": "ISC",
   "description": "A library for rendering data tables and components in React using @mui/material.",
