@@ -24,21 +24,10 @@ const TableRendererBody = <TData,>({
 }: TableRendererBodyProps<TData>) => {
   const { selectedRows, handleSelectRow } = useTableRendererContext<TData>();
 
-  const shouldRenderOverlayFetchingOrError = !isLoading || (isFetching && data.length) || isError;
+  const shouldRenderOverlayFetchingOrError = !isLoading && ((isFetching && !isEmpty) || isError || isEmpty);
 
   return (
-    <TableBody sx={{ position: 'relative', height: !data.length || isError ? TABLE_BODY_HEIGHT : 'auto' }}>
-      {shouldRenderOverlayFetchingOrError && (
-        <TableRendererOverlay
-          isLoading={isLoading}
-          isFetching={isFetching}
-          isError={isError}
-          isEmpty={isEmpty}
-          error={error}
-          renderOverlay={renderOverlay}
-        />
-      )}
-
+    <TableBody sx={{ position: 'relative' }}>
       {isLoading
         ? Array.from({ length: RANDOM_ROW_SKELETON_LENGTH }, (_, index) => index).map((index) => (
             <TableRendererSkeletonRow
@@ -74,6 +63,18 @@ const TableRendererBody = <TData,>({
                 ) : null,
             });
           })}
+
+      {shouldRenderOverlayFetchingOrError && (
+        <TableRendererOverlay
+          columns={columns}
+          isLoading={isLoading}
+          isFetching={isFetching}
+          isError={isError}
+          isEmpty={isEmpty}
+          error={error}
+          renderOverlay={renderOverlay}
+        />
+      )}
     </TableBody>
   );
 };

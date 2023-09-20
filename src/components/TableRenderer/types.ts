@@ -243,7 +243,7 @@ export type TableRendererSkeletonRowProps = Pick<TableRendererBaseProps, 'column
 /**
  * Свойства для отображения оврелея таблицы
  */
-export type TableRendererOverlayProps = Pick<TableRendererBaseProps, 'renderOverlay'> & TableRendererState;
+export type TableRendererOverlayProps = Pick<TableRendererBaseProps, 'renderOverlay' | 'columns'> & TableRendererState;
 
 /**
  * Свойства для отображения подвала компонента
