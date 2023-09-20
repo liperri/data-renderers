@@ -51,4 +51,6 @@ const DataRenderer = <TData,>({
   );
 };
 
+DataRenderer.displayName = 'DataRenderer';
+
 export default DataRenderer;
