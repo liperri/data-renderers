@@ -1,17 +1,18 @@
-import { TableCell, TableRow, alpha, useTheme } from '@mui/material';
+import { PropsWithChildren } from 'react';
+import { Box, TableCell, TableRow, alpha, useTheme } from '@mui/material';
 
 import { TableRendererErrorMessage, TableRendererOverlayProps } from '../TableRenderer';
-import { PropsWithChildren } from 'react';
 
 const TableRendererOverlay = ({
+  columns,
   isFetching = false,
   isError = false,
   isEmpty = false,
   error = null,
   renderOverlay,
-}: TableRendererOverlayProps) => {
-  return (
-    <TableRow>
+}: TableRendererOverlayProps) => (
+  <TableRow>
+    <TableCell colSpan={columns.length} sx={{ p: 0, border: 'none' }}>
       {isError ? (
         <OverlayContainer isEmpty={isEmpty}>
           {typeof renderOverlay.error === 'function'
@@ -21,17 +22,19 @@ const TableRendererOverlay = ({
       ) : isFetching ? (
         <OverlayContainer isEmpty={isEmpty}>{renderOverlay.loader}</OverlayContainer>
       ) : (
-        isEmpty && renderOverlay.empty
+        isEmpty && <OverlayContainer isEmpty={isEmpty}>{renderOverlay.empty}</OverlayContainer>
       )}
-    </TableRow>
-  );
-};
+    </TableCell>
+  </TableRow>
+);
+
+TableRendererOverlay.displayName = 'TableRendererOverlay';
 
 const OverlayContainer = ({ children, isEmpty }: PropsWithChildren<Pick<TableRendererOverlayProps, 'isEmpty'>>) => {
   const theme = useTheme();
 
   return (
-    <TableCell
+    <Box
       sx={{
         ...(!isEmpty
           ? { position: 'absolute', inset: 0, zIndex: 1, backgroundColor: alpha(theme.palette.background.default, 0.5) }
@@ -41,10 +44,10 @@ const OverlayContainer = ({ children, isEmpty }: PropsWithChildren<Pick<TableRen
       }}
     >
       {children}
-    </TableCell>
+    </Box>
   );
 };
 
-TableRendererOverlay.displayName = 'TableRendererOverlay';
+OverlayContainer.displayName = 'OverlayContainer';
 
 export default TableRendererOverlay;
