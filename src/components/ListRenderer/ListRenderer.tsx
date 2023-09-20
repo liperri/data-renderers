@@ -1,63 +1,94 @@
-import { useMemo } from 'react';
+import { cloneElement, useMemo } from 'react';
 import { Box, Stack } from '@mui/material';
 
-import { omit } from '../../utils/helpers';
+import { ListRendererProps } from '../../types';
+import { getRandomNumberFromRange } from '../../utils/helpers';
 
-import ListRendererFooter from './ListRendererFooter';
-import ListRendererHeader from './ListRendererHeader';
-import ListRendererItems from './ListRendererItems';
-import ListRendererOverlay from './ListRendererOverlay';
-import ListRendererSkeletonItems from './ListRendererSkeletonItems';
+import { RendererFooter, RendererHeader, RendererOverlay } from '../shared';
 
-import { ListRendererProps } from './types';
+const RANDOM_SKELETON_LENGTH = getRandomNumberFromRange(4, 10);
 
+/**
+ * Свойства ListRenderer
+ * @template TData - тип данных, которые будут отображены в компоненте
+ * @example
+ * ```tsx
+ *  <ListRenderer
+ *    element={<List />}
+ *    isLoading={isLoading}
+ *    isFetching={isFetching}
+ *    isError={isError}
+ *    isEmpty={isEmpty}
+ *    error="Сообщение об ошибке"
+ *    data={data}
+ *    renderHeader={{
+ *      header: (state) => <HeaderComponent state={state} />,
+ *      skeleton: <SkeletonComponent />,
+ *    }}
+ *    render={{
+ *      item: (data, state, index) => <ItemComponent data={data} state={state} index={index} />,
+ *      skeleton: (index) => <SkeletonItemComponent key={index} />,
+ *    }}
+ *    renderFooter={{
+ *      footer: (state) => <FooterComponent state={state} />,
+ *      skeleton: <SkeletonComponent />,
+ *    }}
+ *    renderOverlay={{
+ *      empty: <EmptyComponent />,
+ *      error: (message) => <ErrorComponent message={message} />,
+ *      loader: <LoaderComponent />,
+ *    }}
+ *  />
+ * ```
+ */
 const ListRenderer = <TData,>({
   data = [],
   isLoading = false,
   isFetching = false,
   isError = false,
   error = null,
+  element,
   renderHeader,
-  renderItem,
+  render,
   renderFooter,
   renderOverlay,
   StackProps,
-  ContainerProps,
   skeletonCount,
-  ...props
 }: ListRendererProps<TData>) => {
-  const listRendererState = useMemo(
+  const overlayState = useMemo(
     () => ({
       error,
       isFetching,
       isError,
       isEmpty: !data.length,
-      isLoading,
     }),
-    [isLoading, isFetching, isError, data, error],
+    [isFetching, isError, data, error],
   );
 
-  const shouldRenderOverlayFetchingOrError = !isLoading || (isFetching && data.length) || isError;
+  const shouldRenderOverlayFetchingOrError =
+    !isLoading && ((isFetching && !overlayState.isEmpty) || isError || overlayState.isEmpty);
 
   return (
     <Stack {...StackProps}>
-      {renderHeader && <ListRendererHeader renderHeader={renderHeader} {...listRendererState} />}
+      {renderHeader && <RendererHeader isLoading={isLoading} {...overlayState} renderHeader={renderHeader} />}
 
-      <Box {...ContainerProps} sx={{ ...ContainerProps?.sx, position: 'relative' }}>
-        {isLoading ? (
-          <ListRendererSkeletonItems skeletonCount={skeletonCount} renderItem={renderItem} {...props} />
-        ) : (
-          Boolean(data.length) && (
-            <ListRendererItems data={data} renderItem={renderItem} {...listRendererState} {...props} />
-          )
-        )}
+      <Box {...(shouldRenderOverlayFetchingOrError ? { sx: { position: 'relative' } } : {})}>
+        {cloneElement(
+          element,
+          { ...element.props, ...(overlayState.isEmpty ? { sx: { display: 'unset' } } : {}) },
+          <>
+            {isLoading
+              ? Array.from({ length: skeletonCount ?? RANDOM_SKELETON_LENGTH }, (_, index) => index).map((index) =>
+                  render.skeleton(index),
+                )
+              : !overlayState.isEmpty && data.map((data, index) => render.item(data, overlayState, index))}
 
-        {shouldRenderOverlayFetchingOrError && (
-          <ListRendererOverlay renderOverlay={renderOverlay} {...omit(listRendererState, 'isLoading')} />
+            {shouldRenderOverlayFetchingOrError && <RendererOverlay renderOverlay={renderOverlay} {...overlayState} />}
+          </>,
         )}
       </Box>
 
-      {renderFooter && <ListRendererFooter renderFooter={renderFooter} {...listRendererState} />}
+      {renderFooter && <RendererFooter isLoading={isLoading} {...overlayState} renderFooter={renderFooter} />}
     </Stack>
   );
 };

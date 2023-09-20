@@ -1,13 +1,15 @@
-import { TableRendererFooterProps } from './types';
+import { RenderFooterProps, RendererState } from '../../types';
 
-const TableRendererFooter = ({
+type RendererFooterProps = RendererState & { renderFooter: RenderFooterProps };
+
+const RendererFooter = ({
   isLoading = false,
   isFetching = false,
   isError = false,
   isEmpty = false,
   error = null,
   renderFooter,
-}: TableRendererFooterProps) => (
+}: RendererFooterProps) => (
   <>
     {isLoading
       ? renderFooter?.skeleton
@@ -17,6 +19,6 @@ const TableRendererFooter = ({
   </>
 );
 
-TableRendererFooter.displayName = 'TableRendererFooter';
+RendererFooter.displayName = 'RendererFooter';
 
-export default TableRendererFooter;
+export default RendererFooter;

@@ -1,52 +1,59 @@
 import { cloneElement, useMemo } from 'react';
 
-import { omit } from '../../utils/helpers';
+import { DataRendererProps } from '../../types';
+import { RendererOverlay } from '../shared';
 
-import { DataRendererProps } from './types';
-import DataRendererData from './DataRendererData';
-import DataRendererOverlay from './DataRendererOverlay';
-import DataRendererSkeleton from './DataRendererSkeleton';
-
+/**
+ * Свойства DataRenderer
+ * @template TData - тип данных, которые будут отображены в компоненте
+ * @example
+ * ```tsx
+ *  <DataRenderer
+ *    element={<Box />}
+ *    isLoading={isLoading}
+ *    isFetching={isFetching}
+ *    isError={isError}
+ *    error="Сообщение об ошибке"
+ *    data={data}
+ *    render={{
+ *      item: (data, state) => <ItemComponent data={data} state={state} />,
+ *      skeleton: <SkeletonComponent />,
+ *    }}
+ *  />
+ * ```
+ */
 const DataRenderer = <TData,>({
   data = undefined,
   isLoading = false,
   isFetching = false,
   isError = false,
   error = null,
-  renderData,
+  render,
   renderOverlay,
   element,
-  ...props
 }: DataRendererProps<TData>) => {
-  const dataRendererState = useMemo(
+  const overlayState = useMemo(
     () => ({
       error,
       isFetching,
       isError,
       isEmpty: !Object.keys(data || {}).length,
-      isLoading,
     }),
-    [isLoading, isFetching, isError, data, error],
+    [isFetching, isError, data, error],
   );
 
   const shouldRenderOverlayFetchingOrError =
-    !isLoading && ((isFetching && !dataRendererState.isEmpty) || isError || dataRendererState.isEmpty);
+    !isLoading && ((isFetching && !overlayState.isEmpty) || isError || overlayState.isEmpty);
 
   return cloneElement(
     element,
-    { ...props, ...(shouldRenderOverlayFetchingOrError ? { style: { position: 'relative' } } : {}) },
+    { ...element.props, ...(shouldRenderOverlayFetchingOrError ? { style: { position: 'relative' } } : {}) },
     <>
-      {isLoading ? (
-        <DataRendererSkeleton renderData={renderData} {...props} />
-      ) : (
-        !dataRendererState.isEmpty && (
-          <DataRendererData data={data} renderData={renderData} {...dataRendererState} {...props} />
-        )
-      )}
+      {isLoading
+        ? render.skeleton
+        : !overlayState.isEmpty && render.item(data || ({} as NonNullable<TData>), overlayState)}
 
-      {shouldRenderOverlayFetchingOrError && (
-        <DataRendererOverlay renderOverlay={renderOverlay} {...omit(dataRendererState, 'isLoading')} />
-      )}
+      {shouldRenderOverlayFetchingOrError && <RendererOverlay renderOverlay={renderOverlay} {...overlayState} />}
     </>,
   );
 };

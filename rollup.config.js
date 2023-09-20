@@ -13,7 +13,7 @@ export default {
     external(),
     resolve(),
     babel({ babelHelpers: 'bundled', exclude: 'node_modules/**' }),
-    typescript(),
+    typescript({ exclude: ['node_modules', 'src/stories/**.story.tsx'] }),
     terser(),
   ],
   onwarn(warning, warn) {

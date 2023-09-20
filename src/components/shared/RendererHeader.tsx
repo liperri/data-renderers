@@ -1,13 +1,15 @@
-import { TableRendererHeaderProps } from './types';
+import { RenderHeaderProps, RendererState } from '../../types';
 
-const TableRendererHeader = ({
+type RendererHeaderProps = RendererState & { renderHeader: RenderHeaderProps };
+
+const RendererHeader = ({
   isLoading = false,
   isFetching = false,
   isError = false,
   isEmpty = false,
   error = null,
   renderHeader,
-}: TableRendererHeaderProps) => (
+}: RendererHeaderProps) => (
   <>
     {isLoading
       ? renderHeader?.skeleton
@@ -17,6 +19,6 @@ const TableRendererHeader = ({
   </>
 );
 
-TableRendererHeader.displayName = 'TableRendererHeader';
+RendererHeader.displayName = 'RendererHeader';
 
-export default TableRendererHeader;
+export default RendererHeader;

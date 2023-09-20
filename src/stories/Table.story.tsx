@@ -1,11 +1,11 @@
-// TableRenderer.story.tsx
+// Table.story.tsx
 
 import type { Meta, StoryObj } from '@storybook/react';
 import { useEffect, useState } from 'react';
 import { faker } from '@faker-js/faker';
 import { Avatar, Box, CircularProgress, Pagination, TableCell, TableRow, Typography } from '@mui/material';
 
-import { TableRenderer, TableRendererProps } from '.';
+import { TableRenderer, TableRendererProps } from '../components';
 
 type User = {
   id: number;
@@ -29,7 +29,7 @@ const USERS: User[] = Array.from({ length: 50 }, (_, index) => ({
   photo: faker.image.avatar(),
 }));
 
-const Template = (props: TableRendererProps<User>) => {
+const Table = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [isFetching, setIsFetching] = useState(false);
@@ -60,7 +60,6 @@ const Template = (props: TableRendererProps<User>) => {
   return (
     <>
       <TableRenderer
-        {...props}
         size="small"
         StackProps={{ spacing: 4 }}
         columns={['', 'Имя', 'Фамилия', 'Адрес', 'Место работы', 'Должность', 'Дата рождения']}
@@ -69,22 +68,24 @@ const Template = (props: TableRendererProps<User>) => {
         isFetching={isFetching}
         isError={false}
         error={{ data: 'Неизвестная ошибка' }}
-        renderRow={({ rowData: user }) => {
-          const { address, birthdate, job, name, position, surname, id } = user;
+        render={{
+          row: (user, state, rowProps, index) => {
+            const { address, birthdate, job, name, position, surname, id } = user;
 
-          return (
-            <TableRow key={id}>
-              <TableCell>
-                <Avatar src={user.photo}>{user.name}</Avatar>
-              </TableCell>
-              <TableCell>{name}</TableCell>
-              <TableCell>{surname}</TableCell>
-              <TableCell>{address}</TableCell>
-              <TableCell>{job}</TableCell>
-              <TableCell>{position}</TableCell>
-              <TableCell>{new Date(birthdate).toLocaleDateString()}</TableCell>
-            </TableRow>
-          );
+            return (
+              <TableRow key={id}>
+                <TableCell>
+                  <Avatar src={user.photo}>{user.name}</Avatar>
+                </TableCell>
+                <TableCell>{name}</TableCell>
+                <TableCell>{surname}</TableCell>
+                <TableCell>{address}</TableCell>
+                <TableCell>{job}</TableCell>
+                <TableCell>{position}</TableCell>
+                <TableCell>{new Date(birthdate).toLocaleDateString()}</TableCell>
+              </TableRow>
+            );
+          },
         }}
         renderFooter={{
           footer: ({ isFetching }) => (
@@ -120,8 +121,8 @@ const Template = (props: TableRendererProps<User>) => {
 };
 
 const meta = {
-  component: Template,
-} satisfies Meta<typeof Template>;
+  component: Table,
+} satisfies Meta<typeof Table>;
 
 export default meta;
 type Story = Omit<StoryObj<typeof meta>, 'args'>;
