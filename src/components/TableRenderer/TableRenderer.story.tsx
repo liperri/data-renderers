@@ -3,9 +3,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useEffect, useState } from 'react';
 import { faker } from '@faker-js/faker';
-import { Avatar, Box, CircularProgress, Input, Pagination, TableCell, TableRow, Typography } from '@mui/material';
+import { Avatar, Box, CircularProgress, Pagination, TableCell, TableRow, Typography } from '@mui/material';
 
-import { TableRenderer, TableRendererProps, TableRendererRowProps } from '.';
+import { TableRenderer, TableRendererProps } from '.';
 
 type User = {
   id: number;
