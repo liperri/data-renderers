@@ -1,13 +1,13 @@
-// DataRenderer.story.tsx
+// Item.story.tsx
 
 import type { Meta, StoryObj } from '@storybook/react';
 import { useEffect, useState } from 'react';
 import { faker } from '@faker-js/faker';
 import { Avatar, Box, Button, CircularProgress, Paper, Skeleton, Stack, Typography } from '@mui/material';
 
-import { getRandomNumber } from '../../utils/helpers';
+import { getRandomNumberFromRange } from '../utils/helpers';
 
-import { DataRenderer } from '.';
+import { DataRenderer } from '../components';
 
 type User = {
   name: string;
@@ -29,7 +29,7 @@ const USER: User = {
   photo: faker.image.avatar(),
 };
 
-const Template = () => {
+const Item = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<User | null>(null);
 
@@ -52,7 +52,7 @@ const Template = () => {
       isFetching={false}
       isError={false}
       error={{ data: 'Неизвестная ошибка' }}
-      renderData={{
+      render={{
         item: (user) => (
           <>
             <Stack direction="row" spacing={1} sx={{ alignItems: 'center', mb: 1 }}>
@@ -76,11 +76,11 @@ const Template = () => {
           <>
             <Stack direction="row" spacing={1} sx={{ alignItems: 'center', mb: 1 }}>
               <Skeleton variant="circular" width={40} height={40} />
-              <Skeleton width={getRandomNumber(120, 230)} variant="rounded" />
+              <Skeleton width={getRandomNumberFromRange(120, 230)} variant="rounded" />
             </Stack>
 
-            <Skeleton width={getRandomNumber(120, 230)} height={26} />
-            <Skeleton width={getRandomNumber(320, 430)} height={26} />
+            <Skeleton width={getRandomNumberFromRange(120, 230)} height={26} />
+            <Skeleton width={getRandomNumberFromRange(320, 430)} height={26} />
           </>
         ),
       }}
@@ -110,8 +110,8 @@ const Template = () => {
 };
 
 const meta = {
-  component: Template,
-} satisfies Meta<typeof Template>;
+  component: Item,
+} satisfies Meta<typeof Item>;
 
 export default meta;
 type Story = Omit<StoryObj<typeof meta>, 'args'>;

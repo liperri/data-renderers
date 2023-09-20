@@ -1,13 +1,15 @@
-import { GridRendererHeaderProps } from './types';
+import { RenderHeaderProps, RendererState } from '../../types';
 
-const GridRendererHeader = ({
+type RendererHeaderProps = RendererState & { renderHeader: RenderHeaderProps };
+
+const RendererHeader = ({
   isLoading = false,
   isFetching = false,
   isError = false,
   isEmpty = false,
   error = null,
   renderHeader,
-}: GridRendererHeaderProps) => (
+}: RendererHeaderProps) => (
   <>
     {isLoading
       ? renderHeader?.skeleton
@@ -17,6 +19,6 @@ const GridRendererHeader = ({
   </>
 );
 
-GridRendererHeader.displayName = 'GridRendererHeader';
+RendererHeader.displayName = 'RendererHeader';
 
-export default GridRendererHeader;
+export default RendererHeader;

@@ -1,13 +1,13 @@
 import { PropsWithChildren, createContext, useContext, useState } from 'react';
 
 interface TableRendererSelectedRow<TData> {
-  rowData: TData;
+  row: TData;
   index: number;
 }
 
 export interface TableRendererContextProps<TData> {
   selectedRows: TableRendererSelectedRow<TData>[];
-  handleSelectRow(event: React.ChangeEvent<HTMLInputElement>, checked: boolean, rowData: TData, index: number): void;
+  handleSelectRow(event: React.ChangeEvent<HTMLInputElement>, checked: boolean, row: TData, index: number): void;
   handleSelectAllRows(data: TData[], checked: boolean): void;
 }
 
@@ -24,23 +24,18 @@ export const TableRendererContext = createContext<TableRendererContextProps<any>
 const TableRendererProvider = <TData,>({ children }: PropsWithChildren) => {
   const [selectedRows, setSelectedRows] = useState<TableRendererSelectedRow<TData>[]>([]);
 
-  function handleSelectRow(
-    event: React.ChangeEvent<HTMLInputElement>,
-    checked: boolean,
-    rowData: TData,
-    index: number,
-  ) {
+  function handleSelectRow(event: React.ChangeEvent<HTMLInputElement>, checked: boolean, row: TData, index: number) {
     event.stopPropagation();
 
     setSelectedRows((prevSelectedRows) =>
       checked
-        ? [...prevSelectedRows, { rowData, index }]
+        ? [...prevSelectedRows, { row, index }]
         : prevSelectedRows.filter((selectedRow) => selectedRow.index !== index),
     );
   }
 
   function handleSelectAllRows(data: TData[] = [], checked: boolean) {
-    setSelectedRows(checked ? data.map((rowData, index) => ({ rowData, index })) : []);
+    setSelectedRows(checked ? data.map((row, index) => ({ row, index })) : []);
   }
 
   return (
@@ -50,7 +45,7 @@ const TableRendererProvider = <TData,>({ children }: PropsWithChildren) => {
   );
 };
 
-export const useTableRendererContext = <TData,>() => {
+export const useTableRenderer = <TData,>() => {
   const context = useContext(TableRendererContext);
 
   if (!context) throw new Error('useTableRendererContext должен использоваться внутри TableRendererProvider');

@@ -1,13 +1,15 @@
-import { GridRendererFooterProps } from './types';
+import { RenderFooterProps, RendererState } from '../../types';
 
-const GridRendererFooter = ({
+type RendererFooterProps = RendererState & { renderFooter: RenderFooterProps };
+
+const RendererFooter = ({
   isLoading = false,
   isFetching = false,
   isError = false,
   isEmpty = false,
   error = null,
   renderFooter,
-}: GridRendererFooterProps) => (
+}: RendererFooterProps) => (
   <>
     {isLoading
       ? renderFooter?.skeleton
@@ -17,6 +19,6 @@ const GridRendererFooter = ({
   </>
 );
 
-GridRendererFooter.displayName = 'GridRendererFooter';
+RendererFooter.displayName = 'RendererFooter';
 
-export default GridRendererFooter;
+export default RendererFooter;

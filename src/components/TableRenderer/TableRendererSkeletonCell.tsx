@@ -1,17 +1,14 @@
-import { useMemo } from 'react';
 import { Skeleton, TableCell } from '@mui/material';
 
-import { getRandomNumber } from '../../utils/helpers';
+import { getRandomNumberFromRange } from '../../utils/helpers';
 
-const TableRendererSkeletonCell = () => {
-  const getRandomSkeletonCellWidth = useMemo(() => getRandomNumber(60, 95), []);
+const RANDOM_SKELETON_CELL_WIDTH = getRandomNumberFromRange(60, 95);
 
-  return (
-    <TableCell>
-      <Skeleton width={`${getRandomSkeletonCellWidth}px`} />
-    </TableCell>
-  );
-};
+const TableRendererSkeletonCell = () => (
+  <TableCell>
+    <Skeleton width={`${RANDOM_SKELETON_CELL_WIDTH}px`} />
+  </TableCell>
+);
 
 TableRendererSkeletonCell.displayName = 'TableRendererSkeletonCell';
 

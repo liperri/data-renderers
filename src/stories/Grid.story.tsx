@@ -1,4 +1,4 @@
-// GridRenderer.story.tsx
+// Grid.story.tsx
 
 import type { Meta, StoryObj } from '@storybook/react';
 import { useEffect, useState } from 'react';
@@ -8,7 +8,7 @@ import {
   Box,
   Button,
   CircularProgress,
-  Grid,
+  Grid as MuiGrid,
   Pagination,
   Paper,
   Skeleton,
@@ -16,9 +16,9 @@ import {
   Typography,
 } from '@mui/material';
 
-import { getRandomNumber } from '../../utils/helpers';
+import { getRandomNumberFromRange } from '../utils/helpers';
 
-import { GridRenderer } from '.';
+import { ListRenderer } from '../components';
 
 type User = {
   id: number;
@@ -42,7 +42,7 @@ const USERS: User[] = Array.from({ length: 50 }, (_, index) => ({
   photo: faker.image.avatar(),
 }));
 
-const Template = () => {
+const Grid = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const [isFetching, setIsFetching] = useState(false);
@@ -71,18 +71,17 @@ const Template = () => {
   }, []);
 
   return (
-    <GridRenderer
-      spacing={2}
-      StackProps={{ spacing: 4 }}
+    <ListRenderer
+      element={<MuiGrid container spacing={3} />}
       data={currentUsers}
       isLoading={isLoading}
       isFetching={isFetching}
       isError={false}
       error={{ data: 'Неизвестная ошибка' }}
-      renderItem={{
+      render={{
         item: (user) => (
-          <Grid item key={user.id}>
-            <Paper sx={{ p: 2.5 }}>
+          <MuiGrid item lg={4} md={6} xs={12} key={user.id}>
+            <Paper sx={{ p: 2.5, flexDirection: 'column', alignItems: 'stretch' }}>
               <Stack direction="row" spacing={1} sx={{ alignItems: 'center', mb: 1 }}>
                 <Avatar src={user.photo}>{user.name}</Avatar>
 
@@ -99,20 +98,20 @@ const Template = () => {
                 {user.job} {user.position}
               </Typography>
             </Paper>
-          </Grid>
+          </MuiGrid>
         ),
         skeleton: (index: number) => (
-          <Grid item key={index}>
-            <Paper sx={{ p: 2.5 }}>
+          <MuiGrid item lg={4} md={6} xs={12} key={index}>
+            <Paper sx={{ p: 2.5, flexDirection: 'column', alignItems: 'stretch' }}>
               <Stack direction="row" spacing={1} sx={{ alignItems: 'center', mb: 1 }}>
                 <Skeleton variant="circular" width={40} height={40} />
-                <Skeleton width={getRandomNumber(120, 230)} variant="rounded" />
+                <Skeleton width={getRandomNumberFromRange(120, 230)} variant="rounded" />
               </Stack>
 
-              <Skeleton width={getRandomNumber(120, 230)} height={26} />
-              <Skeleton width={getRandomNumber(320, 430)} height={26} />
+              <Skeleton width={getRandomNumberFromRange(120, 230)} height={26} />
+              <Skeleton width={getRandomNumberFromRange(320, 430)} height={26} />
             </Paper>
-          </Grid>
+          </MuiGrid>
         ),
       }}
       renderFooter={{
@@ -157,8 +156,8 @@ const Template = () => {
 };
 
 const meta = {
-  component: Template,
-} satisfies Meta<typeof Template>;
+  component: Grid,
+} satisfies Meta<typeof Grid>;
 
 export default meta;
 type Story = Omit<StoryObj<typeof meta>, 'args'>;
