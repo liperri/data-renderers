@@ -172,13 +172,15 @@ interface SelectableRowProps {
   CheckboxComponent: React.ElementType;
 }
 
+export interface TableRendererRowProps<TData> {
+  data: TData;
+  state: Omit<RendererState, 'isLoading'>;
+  index: number;
+  selectableProps: SelectableRowProps;
+}
+
 interface TableRenderProps<TData> {
-  row(
-    data: TData,
-    state: Omit<RendererState, 'isLoading'>,
-    index: number,
-    selectableProps: SelectableRowProps,
-  ): React.ReactNode;
+  row(...props: TableRendererRowProps<TData>[]): React.ReactNode;
 }
 
 interface TableRendererSelectableProps {
@@ -191,7 +193,9 @@ interface TableRendererSelectableProps {
    *  <TableRenderer
    *    {...props}
    *    selectable
-   *    renderRow={(props) => <RowComponent key={props.rowData.id} {...props} />}
+   *    render={{
+   *      row: (data, state, index, selectableProps) => <RowComponent data={data} state={state} selectableProps={selectableProps} index={index} />,
+   *    }}
    *  />
    * ```
    *
@@ -201,8 +205,9 @@ interface TableRendererSelectableProps {
    * ```tsx
    *   type RowComponentProps<TData> = TableRendererRowProps<TData> & {...}
    *
-   *   const RowComponent = ({ rowData, CheckboxComponent }: RowComponentProps) => {
-   *     const { title } = rowData;
+   *   const RowComponent = ({ data, selectableProps }: RowComponentProps) => {
+   *     const { title } = data;
+   *     const { CheckboxComponent } = selectableProps;
    *
    *     return (
    *       <TableRow>
