@@ -85,17 +85,22 @@ const TableRendererContainer = <TData,>({
             : rows.map((data, index) => {
                 const selected = Boolean(selectable && selectedRows.map(({ index }) => index).includes(index));
 
-                return render.row(data, { isFetching, isError, isEmpty, error }, index, {
-                  selected,
-                  CheckboxComponent: () =>
-                    selectable ? (
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          checked={selected}
-                          onChange={(event, checked) => handleSelectRow(event, checked, data, index)}
-                        />
-                      </TableCell>
-                    ) : null,
+                return render.row({
+                  data,
+                  state: { isFetching, isError, isEmpty, error },
+                  index,
+                  selectableProps: {
+                    selected,
+                    CheckboxComponent: () =>
+                      selectable ? (
+                        <TableCell padding="checkbox">
+                          <Checkbox
+                            checked={selected}
+                            onChange={(event, checked) => handleSelectRow(event, checked, data, index)}
+                          />
+                        </TableCell>
+                      ) : null,
+                  },
                 });
               })}
 
