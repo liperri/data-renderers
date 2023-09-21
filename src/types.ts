@@ -180,7 +180,7 @@ export interface TableRendererRowProps<TData> {
 }
 
 interface TableRenderProps<TData> {
-  row(...props: TableRendererRowProps<TData>[]): React.ReactNode;
+  row(props: TableRendererRowProps<TData>): React.ReactNode;
 }
 
 interface TableRendererSelectableProps {
