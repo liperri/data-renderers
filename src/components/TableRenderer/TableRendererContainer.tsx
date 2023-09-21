@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 
 import { getRandomNumberFromRange } from '../../utils/helpers';
-import { TableRendererContainerProps } from '../../types';
+import { RendererState, TableRendererProps } from '../../types';
 
 import { RendererOverlay } from '../shared';
 
@@ -19,6 +19,9 @@ import { useTableRenderer } from './context';
 import TableRendererSkeletonCell from './TableRendererSkeletonCell';
 
 const RANDOM_SKELETON_ROW_LENGTH = getRandomNumberFromRange(4, 10);
+
+type TableRendererContainerProps<TData> = Omit<TableRendererProps<TData>, 'renderHeader' | 'renderFooter'> &
+  Pick<RendererState, 'isEmpty'>;
 
 const TableRendererContainer = <TData,>({
   data: rows = [],
