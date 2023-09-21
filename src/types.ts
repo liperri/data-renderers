@@ -172,7 +172,7 @@ interface SelectableRowProps {
   CheckboxComponent: React.ElementType;
 }
 
-export interface TableRenderProps<TData> {
+interface TableRenderProps<TData> {
   row(
     data: TData,
     state: Omit<RendererState, 'isLoading'>,
@@ -237,6 +237,3 @@ export type TableRendererProps<TData> = Omit<RendererProps<TableRenderProps<TDat
      */
     StackProps?: StackProps;
   };
-
-export type TableRendererContainerProps<TData> = Omit<TableRendererProps<TData>, 'renderHeader' | 'renderFooter'> &
-  Pick<RendererState, 'isEmpty'>;

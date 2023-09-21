@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { faker } from '@faker-js/faker';
 import { Avatar, Box, CircularProgress, Pagination, TableCell, TableRow, Typography } from '@mui/material';
 
-import { TableRenderer, TableRendererProps } from '../components';
+import { TableRenderer } from '../components';
 
 type User = {
   id: number;
@@ -69,7 +69,7 @@ const Table = () => {
         isError={false}
         error={{ data: 'Неизвестная ошибка' }}
         render={{
-          row: (user, state, rowProps, index) => {
+          row: (user) => {
             const { address, birthdate, job, name, position, surname, id } = user;
 
             return (

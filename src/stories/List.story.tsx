@@ -76,8 +76,7 @@ const List = () => {
     <ListRenderer
       StackProps={{ spacing: 4 }}
       element={<MuiList disablePadding sx={{ display: 'flex', flexDirection: 'column', gap: 2 }} />}
-      // data={currentUsers}
-      data={[] as User[]}
+      data={currentUsers}
       isLoading={isLoading}
       isFetching={isFetching}
       isError={false}
