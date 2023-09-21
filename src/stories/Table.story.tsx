@@ -69,7 +69,7 @@ const Table = () => {
         isError={false}
         error={{ data: 'Неизвестная ошибка' }}
         render={{
-          row: (user) => {
+          row: ({ data: user }) => {
             const { address, birthdate, job, name, position, surname, id } = user;
 
             return (
