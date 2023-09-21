@@ -75,7 +75,7 @@ const ListRenderer = <TData,>({
       <Box {...(shouldRenderOverlayFetchingOrError ? { sx: { position: 'relative' } } : {})}>
         {cloneElement(
           element,
-          { ...element.props, ...(overlayState.isEmpty ? { sx: { display: 'unset' } } : {}) },
+          { ...element.props, ...(!isLoading && overlayState.isEmpty ? { sx: { display: 'unset' } } : {}) },
           <>
             {isLoading
               ? Array.from({ length: skeletonCount ?? RANDOM_SKELETON_LENGTH }, (_, index) => index).map((index) =>

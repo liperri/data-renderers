@@ -51,7 +51,7 @@ const Grid = () => {
   const totalPages = Math.ceil(USERS.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentUsers = USERS.slice(startIndex, endIndex);
+  const [currentUsers, setCurrentUsers] = useState<User[]>([]);
 
   const handlePageChange = (_: React.ChangeEvent<unknown>, page: number) => {
     setIsFetching(true);
@@ -63,7 +63,10 @@ const Grid = () => {
   };
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 2000);
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+      setCurrentUsers(USERS.slice(startIndex, endIndex));
+    }, 2000);
 
     return () => {
       clearTimeout(timer);
