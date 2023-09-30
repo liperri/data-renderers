@@ -21,7 +21,10 @@ import TableRendererSkeletonCell from './TableRendererSkeletonCell';
 const RANDOM_SKELETON_ROW_LENGTH = getRandomNumberFromRange(4, 10);
 const OVERLAY_TABLE_BODY_HEIGHT = 130;
 
-type TableRendererContainerProps<TData> = Omit<TableRendererProps<TData>, 'renderHeader' | 'renderFooter'> &
+type TableRendererContainerProps<TData> = Omit<
+  TableRendererProps<TData>,
+  'StackProps' | 'renderHeader' | 'renderFooter'
+> &
   Pick<RendererState, 'isEmpty'>;
 
 const TableRendererContainer = <TData,>({
@@ -74,16 +77,16 @@ const TableRendererContainer = <TData,>({
           {isLoading
             ? Array.from({ length: RANDOM_SKELETON_ROW_LENGTH }, (_, index) => index).map((index) => (
                 <TableRow key={index}>
-                  {selectable ? (
+                  {selectable && (
                     <TableCell padding="checkbox">
-                      <Box sx={{ width: 42, height: 42, display: 'inline-grid', placeItems: 'center' }}>
-                        <Skeleton width={20} height={20} variant="rounded" />
+                      <Box sx={{ display: 'grid', placeItems: 'center' }}>
+                        <Skeleton width={20} height={20} variant="rounded" sx={{ my: 0.75 }} />
                       </Box>
                     </TableCell>
-                  ) : null}
+                  )}
 
                   {Array.from({ length: columns.length }, (_, index) => index).map((index) => (
-                    <TableRendererSkeletonCell key={index} />
+                    <TableRendererSkeletonCell padding={columns[index].length ? 'normal' : 'checkbox'} key={index} />
                   ))}
                 </TableRow>
               ))

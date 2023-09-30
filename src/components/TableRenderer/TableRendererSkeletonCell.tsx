@@ -1,14 +1,18 @@
 import { useMemo } from 'react';
-import { Skeleton, TableCell } from '@mui/material';
+import { Box, Skeleton, TableCell, TableCellProps } from '@mui/material';
 
 import { getRandomNumberFromRange } from '../../utils/helpers';
 
-const TableRendererSkeletonCell = () => {
+const TableRendererSkeletonCell = ({ padding, ...props }: TableCellProps) => {
   const randomSkeletonCellWidth = useMemo(() => getRandomNumberFromRange(45, 95), []);
 
   return (
-    <TableCell>
-      <Skeleton width={`${randomSkeletonCellWidth}%`} />
+    <TableCell padding={padding} {...props}>
+      {padding === 'checkbox' ? (
+        <Skeleton width={40} height={40} variant="circular" sx={{ my: 0.75 }} />
+      ) : (
+        <Skeleton width={`${randomSkeletonCellWidth}%`} />
+      )}
     </TableCell>
   );
 };
