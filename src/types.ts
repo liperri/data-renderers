@@ -129,10 +129,7 @@ interface DataRenderProps<TData> {
   skeleton: React.ReactNode;
 }
 
-export type DataRendererProps<TData> = Omit<
-  RendererProps<DataRenderProps<NonNullable<TData>>>,
-  'renderHeader' | 'renderFooter' | 'isEmpty'
-> & {
+export type DataRendererProps<TData> = Omit<RendererProps<DataRenderProps<NonNullable<TData>>>, 'isEmpty'> & {
   /**
    * Входные данные
    */

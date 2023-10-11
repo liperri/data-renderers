@@ -1,7 +1,8 @@
 import { cloneElement, useMemo } from 'react';
 
 import { DataRendererProps } from '../../types';
-import { RendererOverlay } from '../shared';
+
+import { RendererFooter, RendererHeader, RendererOverlay } from '../shared';
 
 /**
  * Свойства DataRenderer
@@ -28,9 +29,11 @@ const DataRenderer = <TData,>({
   isFetching = false,
   isError = false,
   error = null,
+  element = <></>,
   render,
+  renderFooter,
+  renderHeader,
   renderOverlay,
-  element,
 }: DataRendererProps<TData>) => {
   const overlayState = useMemo(
     () => ({
@@ -42,18 +45,22 @@ const DataRenderer = <TData,>({
     [isFetching, isError, data, error],
   );
 
-  const shouldRenderOverlayFetchingOrError =
-    !isLoading && ((isFetching && !overlayState.isEmpty) || isError || overlayState.isEmpty);
+  const shouldRenderOverlay =
+    !isLoading && ((overlayState.isFetching && !overlayState.isEmpty) || overlayState.isError || overlayState.isEmpty);
 
   return cloneElement(
     element,
-    { ...element.props, ...(shouldRenderOverlayFetchingOrError ? { style: { position: 'relative' } } : {}) },
+    { ...element.props, ...(shouldRenderOverlay ? { style: { position: 'relative' } } : {}) },
     <>
+      {renderHeader && <RendererHeader isLoading={isLoading} {...overlayState} renderHeader={renderHeader} />}
+
       {isLoading
         ? render.skeleton
         : !overlayState.isEmpty && render.item(data || ({} as NonNullable<TData>), overlayState)}
 
-      {shouldRenderOverlayFetchingOrError && <RendererOverlay renderOverlay={renderOverlay} {...overlayState} />}
+      {renderFooter && <RendererFooter isLoading={isLoading} {...overlayState} renderFooter={renderFooter} />}
+
+      {shouldRenderOverlay && <RendererOverlay renderOverlay={renderOverlay} {...overlayState} />}
     </>,
   );
 };
