@@ -21,6 +21,7 @@ const RendererOverlay = ({
           : {}),
         display: 'grid',
         placeItems: 'center',
+        margin: '0 !important',
       }}
     >
       {isError
