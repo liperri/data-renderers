@@ -16,6 +16,7 @@ import { RendererState, TableRendererProps } from '../../types';
 import { RendererOverlay } from '../shared';
 
 import { useTableRenderer } from './context';
+import TableRendererHeadCell from './TableRendererHeadCell';
 import TableRendererSkeletonCell from './TableRendererSkeletonCell';
 
 const RANDOM_SKELETON_ROW_LENGTH = getRandomNumberFromRange(4, 10);
@@ -60,15 +61,9 @@ const TableRendererContainer = <TData,>({
               </TableCell>
             )}
 
-            {columns.map((column, index) => {
-              const espesiallyColumn = column.startsWith(':');
-
-              return (
-                <TableCell padding={espesiallyColumn ? 'checkbox' : 'normal'} key={`${index}:${column}`}>
-                  {espesiallyColumn ? null : column}
-                </TableCell>
-              );
-            })}
+            {columns.map((column, index) => (
+              <TableRendererHeadCell column={column} key={index} />
+            ))}
           </TableRow>
         </TableHead>
 

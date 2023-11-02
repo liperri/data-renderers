@@ -1,4 +1,4 @@
-import { StackProps, TableContainerProps, TableProps } from '@mui/material';
+import { SkeletonProps, StackProps, TableCellProps, TableContainerProps, TableProps } from '@mui/material';
 
 export type RendererErrorMessage = { data: string };
 
@@ -169,19 +169,19 @@ interface SelectableRowProps {
   CheckboxComponent: React.ElementType;
 }
 
-export type TableRendererColumnType =
-  | ':avatar:small'
-  | ':avatar:medium'
-  | ':avatar:large'
-  | ':action:small'
-  | ':action:medium';
-
 export interface TableRendererRowProps<TData> {
   data: TData;
   state: Omit<RendererState, 'isLoading'>;
   index: number;
   selectableProps: SelectableRowProps;
 }
+
+export type TableRendererColumnProps =
+  | {
+      column: React.ReactNode;
+      skeletons?: SkeletonProps[];
+    }
+  | React.ReactNode;
 
 interface TableRenderProps<TData> {
   row(props: TableRendererRowProps<TData>): React.ReactNode;
@@ -236,7 +236,7 @@ export type TableRendererProps<TData> = Omit<RendererProps<TableRenderProps<TDat
     /**
      * Название колонок в таблице
      */
-    columns: string[] | TableRendererColumnType[];
+    columns: TableRendererColumnProps[];
     /**
      * Дополнительные свойства для TableContainer компонента
      */

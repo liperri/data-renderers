@@ -1,39 +1,36 @@
-import { useMemo } from 'react';
-import { Skeleton, TableCell, TableCellProps } from '@mui/material';
+import { isValidElement, useMemo } from 'react';
+import { Skeleton, SkeletonProps, Stack, TableCell } from '@mui/material';
 
-import { TableRendererColumnType } from '../../types';
+import { TableRendererColumnProps } from '../../types';
 import { getRandomNumberFromRange } from '../../utils/helpers';
 
-const SKELETON_TYPES = new Map([
-  [':avatar:small', ['circular', 34, 34]],
-  [':avatar:medium', ['circular', 40, 40]],
-  [':avatar:large', ['circular', 48, 48]],
-  [':action:small', ['circular', 34, 34]],
-  [':action:medium', ['circular', 40, 40]],
-] as const);
+type TableRendererSkeletonProps = {
+  column: TableRendererColumnProps;
+};
 
-const TableRendererSkeletonCell = ({
-  column,
-  ...props
-}: TableCellProps & { column: TableRendererColumnType | string }) => {
-  const espesiallyColumn = column.startsWith(':');
-
+const TableRendererSkeletonCell = ({ column }: TableRendererSkeletonProps) => {
   const randomSkeletonCellWidth = useMemo(() => getRandomNumberFromRange(45, 95), []);
 
+  const isObject = Object.prototype.hasOwnProperty.call(column, 'column');
+  const isString = typeof column === 'string';
+  const isElement = !isObject && !isString && isValidElement(column);
+  const { skeletons } = column as { skeletons?: SkeletonProps[] };
+
+  if (!isString && (isObject || isElement) && skeletons?.length) {
+    return (
+      <TableCell padding={column ? 'normal' : 'checkbox'}>
+        <Stack direction="row">
+          {(skeletons || []).map((skeleton) => (
+            <Skeleton {...skeleton} />
+          ))}
+        </Stack>
+      </TableCell>
+    );
+  }
+
   return (
-    <TableCell padding={espesiallyColumn ? 'checkbox' : 'normal'} {...props}>
-      {espesiallyColumn ? (
-        (() => {
-          const skeletonProps = SKELETON_TYPES.get(column as TableRendererColumnType);
-          if (!skeletonProps) return null;
-
-          const [variant, width, height] = skeletonProps;
-
-          return <Skeleton width={width} height={height} variant={variant} sx={{ my: 0.75 }} />;
-        })()
-      ) : (
-        <Skeleton width={`${randomSkeletonCellWidth}%`} />
-      )}
+    <TableCell padding={column ? 'normal' : 'checkbox'}>
+      <Skeleton width={`${randomSkeletonCellWidth}%`} />
     </TableCell>
   );
 };

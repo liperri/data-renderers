@@ -3,7 +3,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useEffect, useState } from 'react';
 import { faker } from '@faker-js/faker';
-import { Avatar, Box, CircularProgress, Pagination, TableCell, TableRow, Typography } from '@mui/material';
+import { Avatar, Box, CircularProgress, Pagination, Stack, TableCell, TableRow, Typography } from '@mui/material';
 
 import { TableRenderer } from '../components';
 
@@ -62,7 +62,18 @@ const Table = () => {
       <TableRenderer
         size="small"
         StackProps={{ spacing: 4 }}
-        columns={[':action:medium', 'Имя', 'Фамилия', 'Адрес', 'Место работы', 'Должность', 'Дата рождения']}
+        columns={[
+          {
+            column: null,
+            skeletons: [{ variant: 'circular', width: 40, height: 40 }],
+          },
+          <Typography>Имя</Typography>,
+          { column: 'Фамилия' },
+          { column: <Typography>Адрес</Typography> },
+          'Место работы',
+          'Должность',
+          'Дата рождения',
+        ]}
         data={currentUsers}
         isLoading={isLoading}
         isFetching={isFetching}
