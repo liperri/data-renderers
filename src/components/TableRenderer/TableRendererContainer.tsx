@@ -20,6 +20,7 @@ import TableRendererHeadCell from './TableRendererHeadCell';
 import TableRendererSkeletonCell from './TableRendererSkeletonCell';
 
 const RANDOM_SKELETON_ROW_LENGTH = getRandomNumberFromRange(4, 10);
+const OVERLAY_TABLE_BODY_HEIGHT = 130;
 
 type TableRendererContainerProps<TData> = Omit<
   TableRendererProps<TData>,
@@ -67,7 +68,11 @@ const TableRendererContainer = <TData,>({
           </TableRow>
         </TableHead>
 
-        <TableBody {...(shouldRenderOverlayFetchingOrError ? { sx: { position: 'relative' } } : {})}>
+        <TableBody
+          {...(shouldRenderOverlayFetchingOrError
+            ? { sx: { position: 'relative', height: OVERLAY_TABLE_BODY_HEIGHT } }
+            : {})}
+        >
           {isLoading
             ? Array.from({ length: RANDOM_SKELETON_ROW_LENGTH }, (_, index) => index).map((index) => (
                 <TableRow key={index}>
