@@ -19,7 +19,6 @@ import { useTableRenderer } from './context';
 import TableRendererSkeletonCell from './TableRendererSkeletonCell';
 
 const RANDOM_SKELETON_ROW_LENGTH = getRandomNumberFromRange(4, 10);
-const OVERLAY_TABLE_BODY_HEIGHT = 130;
 
 type TableRendererContainerProps<TData> = Omit<
   TableRendererProps<TData>,
@@ -61,19 +60,19 @@ const TableRendererContainer = <TData,>({
               </TableCell>
             )}
 
-            {columns.map((column, index) => (
-              <TableCell padding={column ? 'normal' : 'checkbox'} key={`${index}:${column}`}>
-                {column}
-              </TableCell>
-            ))}
+            {columns.map((column, index) => {
+              const espesiallyColumn = column.startsWith(':');
+
+              return (
+                <TableCell padding={espesiallyColumn ? 'checkbox' : 'normal'} key={`${index}:${column}`}>
+                  {espesiallyColumn ? null : column}
+                </TableCell>
+              );
+            })}
           </TableRow>
         </TableHead>
 
-        <TableBody
-          {...(shouldRenderOverlayFetchingOrError
-            ? { sx: { position: 'relative', height: OVERLAY_TABLE_BODY_HEIGHT } }
-            : {})}
-        >
+        <TableBody {...(shouldRenderOverlayFetchingOrError ? { sx: { position: 'relative' } } : {})}>
           {isLoading
             ? Array.from({ length: RANDOM_SKELETON_ROW_LENGTH }, (_, index) => index).map((index) => (
                 <TableRow key={index}>
@@ -86,7 +85,7 @@ const TableRendererContainer = <TData,>({
                   )}
 
                   {Array.from({ length: columns.length }, (_, index) => index).map((index) => (
-                    <TableRendererSkeletonCell padding={columns[index].length ? 'normal' : 'checkbox'} key={index} />
+                    <TableRendererSkeletonCell column={columns[index]} key={index} />
                   ))}
                 </TableRow>
               ))

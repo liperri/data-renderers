@@ -169,6 +169,13 @@ interface SelectableRowProps {
   CheckboxComponent: React.ElementType;
 }
 
+export type TableRendererColumnType =
+  | ':avatar:small'
+  | ':avatar:medium'
+  | ':avatar:large'
+  | ':action:small'
+  | ':action:medium';
+
 export interface TableRendererRowProps<TData> {
   data: TData;
   state: Omit<RendererState, 'isLoading'>;
@@ -229,7 +236,7 @@ export type TableRendererProps<TData> = Omit<RendererProps<TableRenderProps<TDat
     /**
      * Название колонок в таблице
      */
-    columns: string[];
+    columns: string[] | TableRendererColumnType[];
     /**
      * Дополнительные свойства для TableContainer компонента
      */

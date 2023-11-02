@@ -62,7 +62,7 @@ const Table = () => {
       <TableRenderer
         size="small"
         StackProps={{ spacing: 4 }}
-        columns={['', 'Имя', 'Фамилия', 'Адрес', 'Место работы', 'Должность', 'Дата рождения']}
+        columns={[':action:medium', 'Имя', 'Фамилия', 'Адрес', 'Место работы', 'Должность', 'Дата рождения']}
         data={currentUsers}
         isLoading={isLoading}
         isFetching={isFetching}
