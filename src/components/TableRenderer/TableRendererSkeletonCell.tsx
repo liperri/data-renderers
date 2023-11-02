@@ -20,8 +20,8 @@ const TableRendererSkeletonCell = ({ column }: TableRendererSkeletonProps) => {
     return (
       <TableCell padding={column ? 'normal' : 'checkbox'}>
         <Stack direction="row">
-          {(skeletons || []).map((skeleton) => (
-            <Skeleton {...skeleton} />
+          {(skeletons || []).map((skeleton, index) => (
+            <Skeleton {...skeleton} key={index} />
           ))}
         </Stack>
       </TableCell>
