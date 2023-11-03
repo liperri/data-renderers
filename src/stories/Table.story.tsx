@@ -65,11 +65,9 @@ const Table = () => {
         columns={[
           {
             cell: null,
-            skeletons: [{ variant: 'circular', width: 40, height: 40 }],
+            skeletons: [{ variant: 'circular', width: 40, height: 40, sx: { my: 0.75 } }],
           },
-          <TableCell>
-            <Typography>Имя</Typography>
-          </TableCell>,
+          <TableCell>Имя</TableCell>,
           { cell: <TableCell>Фамилия</TableCell> },
           'Адрес',
           'Место работы',
@@ -87,8 +85,10 @@ const Table = () => {
 
             return (
               <TableRow key={id}>
-                <TableCell>
-                  <Avatar src={user.photo}>{user.name}</Avatar>
+                <TableCell padding="checkbox">
+                  <Avatar sx={{ my: 0.75 }} src={user.photo}>
+                    {user.name}
+                  </Avatar>
                 </TableCell>
                 <TableCell>{name}</TableCell>
                 <TableCell>{surname}</TableCell>
