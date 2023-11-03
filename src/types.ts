@@ -164,16 +164,10 @@ export type ListRendererProps<TData> = Omit<RendererProps<ListRenderProps<TData>
   skeletonCount?: number;
 };
 
-interface SelectableRowProps {
-  selected: boolean;
-  CheckboxComponent: React.ElementType;
-}
-
 export interface TableRendererRowProps<TData> {
   data: TData;
   state: Omit<RendererState, 'isLoading'>;
   index: number;
-  selectableProps: SelectableRowProps;
 }
 
 export type TableRendererColumnProps =
@@ -187,47 +181,7 @@ interface TableRenderProps<TData> {
   row(props: TableRendererRowProps<TData>): React.ReactNode;
 }
 
-interface TableRendererSelectableProps {
-  /**
-   * Определяет, можно ли выбирать строки в таблице компонента
-   *
-   * @example
-   * Помечаем компонент свойством
-   * ```tsx
-   *  <TableRenderer
-   *    {...props}
-   *    selectable
-   *    render={{
-   *      row: (data, state, index, selectableProps) => <RowComponent data={data} state={state} selectableProps={selectableProps} index={index} />,
-   *    }}
-   *  />
-   * ```
-   *
-   * **Важно**: Первая ячейка должна быть `CheckboxComponent`
-   *
-   * `CheckboxComponent` наследуется от `TableRendererRowProps`
-   * ```tsx
-   *   type RowComponentProps<TData> = TableRendererRowProps<TData> & {...}
-   *
-   *   const RowComponent = ({ data, selectableProps }: RowComponentProps) => {
-   *     const { title } = data;
-   *     const { CheckboxComponent } = selectableProps;
-   *
-   *     return (
-   *       <TableRow>
-   *         <CheckboxComponent />
-   *
-   *         <TableCell>{title}</TableCell>
-   *       </TableRow>
-   *     );
-   *   }
-   * ```
-   */
-  selectable?: boolean;
-}
-
 export type TableRendererProps<TData> = Omit<RendererProps<TableRenderProps<TData>>, 'isEmpty'> &
-  TableRendererSelectableProps &
   TableProps & {
     /**
      * Входные данные

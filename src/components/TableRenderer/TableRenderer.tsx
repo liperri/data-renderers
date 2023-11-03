@@ -4,7 +4,6 @@ import { Stack } from '@mui/material';
 import { TableRendererProps } from '../../types';
 import { RendererFooter, RendererHeader } from '../shared';
 
-import TableRendererProvider from './context';
 import TableRendererContainer from './TableRendererContainer';
 
 // TODO: Добавить второй generic TSelectable к компоненту, для пометки свойства selectable как required
@@ -50,7 +49,6 @@ const TableRenderer = <TData,>({
   isError = false,
   error = null,
   columns = [],
-  selectable = false,
   renderHeader,
   render,
   renderFooter,
@@ -70,25 +68,22 @@ const TableRenderer = <TData,>({
   );
 
   return (
-    <TableRendererProvider>
-      <Stack {...StackProps}>
-        {renderHeader && <RendererHeader isLoading={isLoading} renderHeader={renderHeader} {...overlayState} />}
+    <Stack {...StackProps}>
+      {renderHeader && <RendererHeader isLoading={isLoading} renderHeader={renderHeader} {...overlayState} />}
 
-        <TableRendererContainer
-          {...props}
-          data={data}
-          columns={columns}
-          selectable={selectable}
-          render={render}
-          renderOverlay={renderOverlay}
-          TableContainerProps={TableContainerProps}
-          isLoading={isLoading}
-          {...overlayState}
-        />
+      <TableRendererContainer
+        {...props}
+        data={data}
+        columns={columns}
+        render={render}
+        renderOverlay={renderOverlay}
+        TableContainerProps={TableContainerProps}
+        isLoading={isLoading}
+        {...overlayState}
+      />
 
-        {renderFooter && <RendererFooter isLoading={isLoading} renderFooter={renderFooter} {...overlayState} />}
-      </Stack>
-    </TableRendererProvider>
+      {renderFooter && <RendererFooter isLoading={isLoading} renderFooter={renderFooter} {...overlayState} />}
+    </Stack>
   );
 };
 

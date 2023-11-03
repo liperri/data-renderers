@@ -15,7 +15,6 @@ import { RendererState, TableRendererProps } from '../../types';
 
 import { RendererOverlay } from '../shared';
 
-import { useTableRenderer } from './context';
 import TableRendererHeadCell from './TableRendererHeadCell';
 import TableRendererSkeletonCell from './TableRendererSkeletonCell';
 
@@ -36,14 +35,11 @@ const TableRendererContainer = <TData,>({
   isEmpty = false,
   error = null,
   columns,
-  selectable,
   render,
   renderOverlay,
   TableContainerProps,
   ...props
 }: TableRendererContainerProps<TData>) => {
-  const { selectedRows, handleSelectRow, handleSelectAllRows } = useTableRenderer<TData>();
-
   const shouldRenderOverlayFetchingOrError = !isLoading && ((isFetching && !isEmpty) || isError || isEmpty);
 
   return (
@@ -51,17 +47,6 @@ const TableRendererContainer = <TData,>({
       <Table {...props}>
         <TableHead>
           <TableRow>
-            {selectable && (
-              <TableCell align="center" padding="checkbox">
-                <Checkbox
-                  disabled={isLoading || isFetching}
-                  indeterminate={selectedRows.length > 0 && selectedRows.length < rows.length}
-                  checked={!isLoading && rows.length === selectedRows.length}
-                  onChange={(_, checked) => handleSelectAllRows(rows, checked)}
-                />
-              </TableCell>
-            )}
-
             {columns.map((column, index) => (
               <TableRendererHeadCell column={column} key={index} />
             ))}
@@ -76,40 +61,12 @@ const TableRendererContainer = <TData,>({
           {isLoading
             ? Array.from({ length: RANDOM_SKELETON_ROW_LENGTH }, (_, index) => index).map((index) => (
                 <TableRow key={index}>
-                  {selectable && (
-                    <TableCell padding="checkbox">
-                      <Box sx={{ display: 'grid', placeItems: 'center' }}>
-                        <Skeleton width={20} height={20} variant="rounded" sx={{ my: 0.75 }} />
-                      </Box>
-                    </TableCell>
-                  )}
-
                   {Array.from({ length: columns.length }, (_, index) => index).map((index) => (
                     <TableRendererSkeletonCell column={columns[index]} key={index} />
                   ))}
                 </TableRow>
               ))
-            : rows.map((data, index) => {
-                const selected = Boolean(selectable && selectedRows.map(({ index }) => index).includes(index));
-
-                return render.row({
-                  data,
-                  state: { isFetching, isError, isEmpty, error },
-                  index,
-                  selectableProps: {
-                    selected,
-                    CheckboxComponent: () =>
-                      selectable ? (
-                        <TableCell padding="checkbox">
-                          <Checkbox
-                            checked={selected}
-                            onChange={(event, checked) => handleSelectRow(event, checked, data, index)}
-                          />
-                        </TableCell>
-                      ) : null,
-                  },
-                });
-              })}
+            : rows.map((data, index) => render.row({ data, state: { isFetching, isError, isEmpty, error }, index }))}
 
           {shouldRenderOverlayFetchingOrError && (
             <TableRow>
