@@ -64,12 +64,14 @@ const Table = () => {
         StackProps={{ spacing: 4 }}
         columns={[
           {
-            column: null,
+            cell: null,
             skeletons: [{ variant: 'circular', width: 40, height: 40 }],
           },
-          <Typography>Имя</Typography>,
-          { column: 'Фамилия' },
-          { column: <Typography>Адрес</Typography> },
+          <TableCell>
+            <Typography>Имя</Typography>
+          </TableCell>,
+          { cell: <TableCell>Фамилия</TableCell> },
+          'Адрес',
           'Место работы',
           'Должность',
           'Дата рождения',

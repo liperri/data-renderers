@@ -12,17 +12,13 @@ const TableRendererHeadCell = ({ column }: TableRendererHeadCellProps) => {
   const isString = typeof column === 'string';
   const isElement = !isObject && !isString && isValidElement(column);
 
-  if (isElement) return <TableCell>{column}</TableCell>;
+  if (isElement) return column;
 
-  const { column: columnAsReactNode } = column as {
-    column: React.ReactNode;
+  const { cell: cellAsReactNode } = column as {
+    cell: React.ReactNode;
   };
 
-  return (
-    <TableCell padding={(isString ? column : columnAsReactNode) ? 'normal' : 'checkbox'}>
-      {isString ? column : columnAsReactNode}
-    </TableCell>
-  );
+  return cellAsReactNode ? cellAsReactNode : <TableCell>{isString && column}</TableCell>;
 };
 
 export default TableRendererHeadCell;

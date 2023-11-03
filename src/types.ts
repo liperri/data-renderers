@@ -178,7 +178,7 @@ export interface TableRendererRowProps<TData> {
 
 export type TableRendererColumnProps =
   | {
-      column: React.ReactNode;
+      cell: React.ReactNode;
       skeletons?: SkeletonProps[];
     }
   | React.ReactNode;
